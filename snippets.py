@@ -6,6 +6,7 @@ with tf.Session() as sess:
   writer=tf.train.SummaryWriter("/tmp/tensorflowlogs", sess.graph)
 
 # Example for matrix / tensor multiplication
+# This is mostly from https://github.com/PacktPublishing/Getting-Started-with-TensorFlow
 
 import tensorflow as tf
 import numpy as np
