@@ -1,13 +1,12 @@
-# LOGGING TO TensorBoard
-
-# docker run -p 8888:8888 -p 6006:6006 alex:tensorflow_tinkering_2
-# docker exec 9c57e537e1c7 tensorboard --logdir=/tmp/tensorflowlogs
+# To start TensorBoard:
+# docker exec container-name tensorboard --logdir=/tmp/tensorflowlogs
 
 with tf.Session() as sess:
   merged = tf.merge_all_summaries()
   writer=tf.train.SummaryWriter("/tmp/tensorflowlogs", sess.graph)
 
 # Example for matrix / tensor multiplication
+# This is mostly from https://github.com/PacktPublishing/Getting-Started-with-TensorFlow
 
 import tensorflow as tf
 import numpy as np
