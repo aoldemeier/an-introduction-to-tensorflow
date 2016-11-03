@@ -1,7 +1,7 @@
 # This code is based on
 # https://github.com/PacktPublishing/Getting-Started-with-TensorFlow/blob/master/Chapter%204/logistic_regression.py
 
-%matplotlib inline
+# %matplotlib inline
 
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
