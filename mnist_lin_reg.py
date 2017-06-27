@@ -1,7 +1,7 @@
 # This code is based on
 # https://github.com/PacktPublishing/Getting-Started-with-TensorFlow/blob/master/Chapter%204/logistic_regression.py
 
-# %matplotlib inline
+%matplotlib inline
 
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
@@ -17,7 +17,7 @@ mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
 
 #####################################
-# Create model / compuational graph:
+# Create model / computational graph:
 #####################################
 
 # tf Graph Input
@@ -35,7 +35,7 @@ actual_activation = tf.nn.softmax(tf.matmul(x, W) + b)
 cost = tf.sqrt(tf.reduce_sum(tf.square(y - actual_activation)))
 
 # Optimize
-optimizer = tf.train.GradientDescentOptimizer(0.1).minimize(cost) 
+optimizer = tf.train.GradientDescentOptimizer(0.01).minimize(cost) 
 
 
 
@@ -46,10 +46,9 @@ optimizer = tf.train.GradientDescentOptimizer(0.1).minimize(cost)
 with tf.Session() as sess:
     
     # This is for logging the data flow graph:
-    merged = tf.merge_all_summaries()
-    writer=tf.train.SummaryWriter("/tmp/tensorflowlogs", sess.graph)
+    writer = tf.summary.FileWriter("/tmp/tensorflowlogs", sess.graph)
     
-    sess.run(tf.initialize_all_variables())
+    sess.run(tf.global_variables_initializer())
     
     print ("Training...")
     

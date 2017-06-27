@@ -39,7 +39,7 @@ actual_activation = tf.nn.softmax(
 cost = tf.reduce_sum(tf.square(y - actual_activation))
 
 # Optimize
-optimizer = tf.train.GradientDescentOptimizer(0.01).minimize(cost)
+optimizer = tf.train.GradientDescentOptimizer(0.08).minimize(cost)
 
 
 
@@ -50,10 +50,10 @@ optimizer = tf.train.GradientDescentOptimizer(0.01).minimize(cost)
 with tf.Session() as sess:
     
     # This is for logging the data flow graph:
-    merged = tf.merge_all_summaries()
-    writer=tf.train.SummaryWriter("/tmp/tensorflowlogs", sess.graph)
+    merged = tf.summary.merge_all()
+    writer = tf.summary.FileWriter("/tmp/tensorflowlogs", sess.graph)
     
-    sess.run(tf.initialize_all_variables())
+    sess.run(tf.global_variables_initializer())
     
     print ("Training...")
 
@@ -73,6 +73,4 @@ with tf.Session() as sess:
         print ("Model accuracy:", accuracy.eval({x: mnist.test.images, y: mnist.test.labels}))
         print ("Cost ", cost.eval({x: mnist.test.images, y: mnist.test.labels}))
 
-    print ("Training phase finished... Testing...")
-    
-
+print ("Training phase finished...")
