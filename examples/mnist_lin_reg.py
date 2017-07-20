@@ -5,7 +5,6 @@
 
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
-import matplotlib.pyplot as plt
 
 
 
@@ -21,12 +20,12 @@ mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 #####################################
 
 # tf Graph Input
-x = tf.placeholder("float", [None, 784]) # mnist data image of shape 28*28=784
-y = tf.placeholder("float", [None, 10]) # 0-9 digits recognition => 10 classes
+x = tf.placeholder("float", shape=(None, 784)) # mnist data image of shape 28*28=784
+y = tf.placeholder("float", shape=(None, 10))  # 0-9 digits recognition => 10 classes
 
 # Set model weights
 W = tf.Variable(tf.zeros([784, 10]))
-b = tf.Variable(tf.zeros([10]))
+b = tf.Variable(tf.zeros([1, 10]))
 
 # Construct model (output function of the network)
 actual_activation = tf.nn.softmax(tf.matmul(x, W) + b)
@@ -52,17 +51,23 @@ with tf.Session() as sess:
     
     print ("Training...")
     
-    for i in range(mnist.train.num_examples):
-        batch_xs, batch_ys = mnist.train.next_batch(1)
-        # Fit training using batch data
+    BATCH_SIZE=1
+    for i in range(mnist.train.num_examples / BATCH_SIZE):
+        batch_xs, batch_ys = mnist.train.next_batch(BATCH_SIZE)
+        # Optimize weights
         sess.run(optimizer, feed_dict={x: batch_xs, y: batch_ys})
 
     print ("Training phase finished... Testing...")
     
-    activations_max_indices = tf.argmax(actual_activation, 1).eval({x: mnist.test.images, y: mnist.test.labels})
-    # Test model
-    correct_prediction = tf.equal(tf.argmax(actual_activation, 1), tf.argmax(y, 1))
+    # Calculate actual predictions
+    predictions = tf.argmax(actual_activation, 1)
+    test_ground_truths = tf.argmax(y, 1)
+    predictions_evaluated = predictions.eval(feed_dict={x: mnist.test.images, y:mnist.test.labels})
+    
+    # Compare with ground truth
+    is_correct_prediction = tf.equal(predictions, test_ground_truths)
+    
     # Calculate accuracy
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+    accuracy = tf.reduce_mean(tf.cast(is_correct_prediction, "float"))
     
     print ("Model accuracy:", accuracy.eval({x: mnist.test.images, y: mnist.test.labels}))

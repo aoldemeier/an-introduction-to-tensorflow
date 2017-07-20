@@ -1,10 +1,10 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
-index = 5
+index = 23
 
 formatted_array = np.array(mnist.test.images[index]).reshape (28,28)
-print(formatted_array)
 plt.imshow(formatted_array)
 print("Correct digit: ", np.argmax(mnist.test.labels[index]))
 
-print("Prediction: ", activations_max_indices[index])
+print("Prediction: ", predictions_evaluated[index])
